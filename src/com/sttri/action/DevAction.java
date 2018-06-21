@@ -164,9 +164,10 @@ public class DevAction extends BaseAction {
 				dev.setFullFlag(0);
 				devService.save(dev);
 				rt = "success";
-			}else
+				saveUserLog("成功添加新设备："+dev.getDevNo());
+			}else{
 				rt = "devnums";
-			
+			}
 			pw.print(rt);
 			pw.flush();
 			pw.close();
@@ -207,7 +208,7 @@ public class DevAction extends BaseAction {
 			dev.setEditTime(Util.dateToStr(new Date()));
 			dev.setCompany(d.getCompany());
 			devService.update(dev);
-			
+			saveUserLog("更新设备:"+d.getDevNo()+"的信息");
 			pw.print("success");
 			pw.flush();
 			pw.close();
@@ -240,6 +241,7 @@ public class DevAction extends BaseAction {
 			String ids = Util.dealNull(request.getParameter("ids"));
 			if(!"".equals(ids) && null!=ids){
 				devService.deletebyids(ids.split("_"));
+				saveUserLog("删除设备");
 				PrintWriter pw = response.getWriter();
 				pw.print("success");
 				pw.flush();
@@ -263,6 +265,7 @@ public class DevAction extends BaseAction {
 				dev.setIsAble(isAble);
 				devService.update(dev);
 				obj.put("desc", "更新成功!");
+				saveUserLog("更新设备:"+dev.getDevNo()+"的是否启用状态:"+isAble);
 			}else{
 				obj.put("desc", "当前设备在线!");
 			}
@@ -323,6 +326,7 @@ public class DevAction extends BaseAction {
 				dev.setErrorLoginTimes(0);
 				this.devService.update(dev);
 				obj.put("desc", "更新成功!");
+				saveUserLog("重置设备："+dev.getDevNo()+"的密码");
 			}else{
 				obj.put("desc", "没有找到当前设备!");
 			}
@@ -537,6 +541,7 @@ public class DevAction extends BaseAction {
 			map.put("devName", "设备名称");
 			response.setContentType("application/x-download");
         	com.sttri.util.ExcelUtil.ImportExcel(devs, response.getOutputStream(), map, fileName);
+        	saveUserLog("导出设备列表");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

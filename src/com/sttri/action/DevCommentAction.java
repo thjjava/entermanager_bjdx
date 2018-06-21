@@ -110,6 +110,7 @@ public class DevCommentAction extends BaseAction {
 						this.devCommentService.update(devComment);
 					}
 				}
+				saveUserLog("审核评论是否合法");
 				pw.print("success");
 				pw.flush();
 				pw.close();
@@ -144,6 +145,7 @@ public class DevCommentAction extends BaseAction {
 							black.setFlag(0);//flag是否可以移除黑名单 0-可以 1-不可以
 							black.setAddTime(Util.dateToStr(new Date()));
 							this.blackService.save(black);
+							saveUserLog("将账号【"+user.getAccount()+"】拉入黑名单，同时将评论设置违规");
 						}
 					}
 				}

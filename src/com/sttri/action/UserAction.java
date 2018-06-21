@@ -195,6 +195,7 @@ public class UserAction extends BaseAction {
 					user.setPwd(WorkUtil.pwdEncrypt(pwd));
 					this.userService.save(user, Util.dealNull(request.getParameter("groupId")));
 					result = "success";
+					saveUserLog("添加新用户"+user.getAccount());
 				}
 			}
 			pw.print(result);
@@ -222,6 +223,7 @@ public class UserAction extends BaseAction {
 			}
 			user.setEditTime(Util.dateToStr(new Date()));
 			userService.update(user, Util.dealNull(request.getParameter("groupId")));
+			saveUserLog("更新用户"+user.getAccount());
 			pw.print("success");
 			pw.flush();
 			pw.close();
@@ -254,6 +256,7 @@ public class UserAction extends BaseAction {
 			String ids = Util.dealNull(request.getParameter("ids"));
 			if(!"".equals(ids) && null!=ids){
 				userService.deletebyids(ids.split("_"));
+				saveUserLog("删除用户");
 				PrintWriter pw = response.getWriter();
 				pw.print("success");
 				pw.flush();
@@ -279,6 +282,7 @@ public class UserAction extends BaseAction {
 				user.setPwd(WorkUtil.pwdEncrypt(newPwd));
 				this.userService.update(user);
 				pw.print("success");
+				saveUserLog("修改管理员："+user.getAccount()+"的密码");
 			}
 			pw.flush();
 			pw.close();
@@ -300,6 +304,7 @@ public class UserAction extends BaseAction {
 				user.setErrorLoginTimes(0);
 				this.userService.update(user);
 				pw.print("success");
+				saveUserLog("重置管理员："+user.getAccount()+"的密码");
 			}
 			pw.flush();
 			pw.close();
@@ -345,6 +350,7 @@ public class UserAction extends BaseAction {
 					}
 				}
 			}
+			saveUserLog("设置账号："+user.getAccount()+"的角色");
 			pw.print("success");
 			pw.flush();
 			pw.close();

@@ -64,6 +64,7 @@ public class LoginAction extends BaseAction{
 			TblUser att=list.get(0);
 			if(att.getAccountType()!=0){
 				request.setAttribute("errorinfo", "请使用管理员帐号！");
+				saveUserLog(account+"登录平台失败，请使用管理员帐号！");
 				return "login";
 			}
 			int hasErrorLogin = att.getErrorLoginTimes();
@@ -73,6 +74,7 @@ public class LoginAction extends BaseAction{
 				int dateDiff = (int)Util.datediff(hasErrorLoginTime, now, "yyyy-MM-dd HH:mm:ss");
 				if (dateDiff <= 10*60*1000 && hasErrorLogin >= ERRORTIMES) {
 					request.getSession().setAttribute("errorinfo", "登录失败的次数已达上限,请10分钟后再登录！");
+					saveUserLog(account+"登录平台失败，登录失败的次数已达上限,请10分钟后再登录！");
 					return "login";
 				}
 			}
@@ -103,6 +105,7 @@ public class LoginAction extends BaseAction{
 					att.setErrorLoginTimes(hasErrorLogin);
 					this.userService.update(att);
 					request.getSession().setAttribute("errorinfo", "密码不正确,剩余登录次数还有"+lastLoginTimes+"次！");
+					saveUserLog(account+"登录平台失败，密码不正确,剩余登录次数还有"+lastLoginTimes+"次！");
 					return "login";
 				}
 			}else {
@@ -112,8 +115,10 @@ public class LoginAction extends BaseAction{
 			}
 		}else{
 			request.setAttribute("errorinfo", "用户名不存在！");
+			saveUserLog(account+"登录平台失败，账号不存在");
 			return "login";
 		}
+		saveUserLog(account+"登录平台成功");
 		return "index";
 	}
 	
@@ -155,6 +160,7 @@ public class LoginAction extends BaseAction{
 					user.setModifyPwdTime(Util.dateToStr(new Date()));
 					this.userService.update(user);
 					pw.print("success");
+					saveUserLog("修改密码成功");
 				}
 			}else {
 				pw.print("accountError");

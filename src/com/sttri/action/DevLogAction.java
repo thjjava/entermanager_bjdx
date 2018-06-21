@@ -287,6 +287,7 @@ public class DevLogAction extends BaseAction {
 				map.put("addTime", "时间");
 				response.setContentType("application/x-download");
 	        	com.sttri.util.ExcelUtil.ImportExcel(list, response.getOutputStream(), map, "设备日志");
+	        	saveUserLog("导出设备日志");
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

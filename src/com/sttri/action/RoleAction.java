@@ -142,6 +142,7 @@ public class RoleAction extends BaseAction {
 				role.setComId(u.getCompany().getId());
 				this.roleService.save(role);
 				result = "success";
+				saveUserLog("创建新角色："+role.getRoleName());
 			}
 			PrintWriter pw = response.getWriter();
 			pw.print(result);
@@ -156,6 +157,7 @@ public class RoleAction extends BaseAction {
 		response.setCharacterEncoding("UTF-8");
 		try {
 			this.roleService.update(role);
+			saveUserLog("更新角色："+role.getRoleName());
 			PrintWriter pw = response.getWriter();
 			pw.print("success");
 			pw.flush();
@@ -205,6 +207,7 @@ public class RoleAction extends BaseAction {
 						this.roleMenusService.deletebyid(roleMenus.getId());
 					}
 				}
+				saveUserLog("删除角色："+role.getRoleName());
 				PrintWriter pw = response.getWriter();
 				pw.print("success");
 				pw.flush();
@@ -262,6 +265,7 @@ public class RoleAction extends BaseAction {
 					}
 				}
 			}
+			saveUserLog("设置角色："+role.getRoleName()+"的权限");
 			pw.print("success");
 			pw.flush();
 			pw.close();

@@ -119,6 +119,7 @@ public class MenuAction extends BaseAction {
 				menus.setAddTime(Util.dateToStr(new Date()));
 				this.menusService.save(menus);
 				result = "success";
+				saveUserLog("创建新菜单："+menus.getName());
 			}
 			
 			PrintWriter pw = response.getWriter();
@@ -135,6 +136,7 @@ public class MenuAction extends BaseAction {
 		response.setCharacterEncoding("UTF-8");
 		try {
 			this.menusService.update(menus);
+			saveUserLog("更新菜单："+menus.getName());
 			PrintWriter pw = response.getWriter();
 			pw.print("success");
 			pw.flush();
@@ -177,6 +179,7 @@ public class MenuAction extends BaseAction {
 						this.roleMenusService.deletebyid(roleMenus.getId());
 					}
 				}
+				saveUserLog("删除菜单："+menus.getName());
 				PrintWriter pw = response.getWriter();
 				pw.print("success");
 				pw.flush();

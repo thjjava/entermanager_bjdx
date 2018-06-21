@@ -87,6 +87,7 @@ public class BlackAction extends BaseAction {
 					TblBlack black = this.blackService.getById(array[i]);
 					if (black.getFlag() == 0) {
 						this.blackService.deletebyid(array[i]);
+						saveUserLog("将用户:"+black.getUser().getAccount()+"移除黑名单");
 					}
 				}
 				PrintWriter pw = response.getWriter();

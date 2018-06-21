@@ -219,7 +219,7 @@ public class CompanyGroupAction extends BaseAction {
 			if(group.getPid().equals(""))
 				group.setPid("0");
 			groupService.save(group);
-			
+			saveUserLog("创建新组织"+group.getGroupName());
 			pw.print("success");
 			pw.flush();
 			pw.close();
@@ -233,6 +233,8 @@ public class CompanyGroupAction extends BaseAction {
 		try {
 			PrintWriter pw = response.getWriter();
 			TblUser u = WorkUtil.getCurrUser(request);
+			CompanyGroup g = this.groupService.getById(group.getId());
+			String groupName = g.getGroupName();
 			/*CompanyGroup g = this.groupService.getById(group.getId());
 			String groupName = group.getGroupName();
 			if (!groupName.equals(g.getGroupName())) {
@@ -247,6 +249,7 @@ public class CompanyGroupAction extends BaseAction {
 			group.setComId(u.getCompany().getId());
 			group.setEditTime(Util.dateToStr(new Date()));
 			groupService.update(group);
+			saveUserLog("将组织【"+groupName+"】更新名称："+group.getGroupName());
 			pw.print("success");
 			pw.flush();
 			pw.close();
