@@ -244,6 +244,7 @@ public class RoleAction extends BaseAction {
 		String roleId = Util.dealNull(request.getParameter("roleId"));
 		String mIds = Util.dealNull(request.getParameter("menus"));
 		try {
+			String logDesc = "设置角色失败";
 			PrintWriter pw = response.getWriter();
 			List<RoleMenus> rmList = this.roleMenusService.getResultList(" o.role.id=?", null, new Object[]{roleId});
 			if (rmList != null && rmList.size() >0) {
@@ -262,10 +263,11 @@ public class RoleAction extends BaseAction {
 						roleMenus.setRole(role);
 						roleMenus.setMenus(menus);
 						this.roleMenusService.save(roleMenus);
+						logDesc = "设置角色："+role.getRoleName()+"的权限";
 					}
 				}
 			}
-			saveUserLog("设置角色："+role.getRoleName()+"的权限");
+			saveUserLog(logDesc);
 			pw.print("success");
 			pw.flush();
 			pw.close();
