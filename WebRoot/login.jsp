@@ -74,6 +74,13 @@
 		}
 		
 		function openSetPwdDiv(){
+			var account = $("#account").val();
+			if(account == '' ){
+				alert("请输入账号!");
+				$("#account").focus();
+				return;
+			}
+			$("#mobile").val(account);
 			openDiv('setPwd');
 		}
 		
@@ -118,6 +125,9 @@
 			$.post("login_getSmsCode.do",{"mobile":mobile},function(data){
 				if(data == "success"){
 					alert("验证码已发送到手机!");
+				}else if(data == "noAccount"){
+					alert("该手机号不存在!");
+					closeDiv('setPwd');
 				}else{
 					alert("验证码获取失败!");
 				}
@@ -228,7 +238,7 @@
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td>手机号：</td>
-					<td><input type="text" id="mobile"/></td>
+					<td><input type="text" id="mobile" readonly="readonly"/></td>
 				</tr>
 				<tr>
 					<td>验证码：</td>

@@ -207,7 +207,7 @@ public class RoleAction extends BaseAction {
 						this.roleMenusService.deletebyid(roleMenus.getId());
 					}
 				}
-				saveUserLog("删除角色："+role.getRoleName());
+				saveUserLog("删除角色");
 				PrintWriter pw = response.getWriter();
 				pw.print("success");
 				pw.flush();

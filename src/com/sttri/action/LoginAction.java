@@ -131,12 +131,18 @@ public class LoginAction extends BaseAction{
 		response.setCharacterEncoding("UTF-8");
 		String mobile = Util.dealNull(request.getParameter("mobile"));
 		try {
-			String result = HttpUtil.sendPost(Constant.readKey("smsUrl"), "phone="+mobile);
-			JSONObject obj = JSONObject.fromObject(result);
 			PrintWriter pw = response.getWriter();
-			if ("0".equals(obj.getString("code"))) {
-				pw.print("success");
+			List<TblUser> list = this.userService.getResultList(" o.account=? and o.accountType=?", null, new Object[] {mobile,0});
+			if (list != null && list.size() >0) {
+				String result = HttpUtil.sendPost(Constant.readKey("smsUrl"), "phone="+mobile);
+				JSONObject obj = JSONObject.fromObject(result);
+				if ("0".equals(obj.getString("code"))) {
+					pw.print("success");
+				}
+			}else {
+				pw.print("noAccount");
 			}
+			
 			pw.flush();
 			pw.close();
 		} catch (Exception e) {
@@ -160,7 +166,7 @@ public class LoginAction extends BaseAction{
 					user.setModifyPwdTime(Util.dateToStr(new Date()));
 					this.userService.update(user);
 					pw.print("success");
-					saveUserLog("修改密码成功");
+					saveUserLog("修改账号【"+account+"】的密码成功");
 				}
 			}else {
 				pw.print("accountError");
