@@ -119,7 +119,7 @@ public class LoginAction extends BaseAction{
 			return "login";
 		}
 		saveUserLog(account+"登录平台成功");
-		HttpUtil.sendPost("http://219.141.156.161:8081/jscs_msg/api/loginSuccess.do", "account=SPJH01&password=e10adc3949ba59abbe56e057f20f883e&phone="+account);
+		HttpUtil.sendPost("http://192.168.39.43:8081/jscs_msg/api/loginSuccess.do", "account=SPJH01&password=e10adc3949ba59abbe56e057f20f883e&phone="+account);
 		return "index";
 	}
 	
